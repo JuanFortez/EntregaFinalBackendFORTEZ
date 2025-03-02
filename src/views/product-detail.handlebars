@@ -1,0 +1,92 @@
+<div class="container my-5">
+    <nav aria-label="breadcrumb" class="mb-4">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="/products">Productos</a></li>
+            <li class="breadcrumb-item active" aria-current="page">{{product.title}}</li>
+        </ol>
+    </nav>
+
+    <div class="row">
+        <div class="col-md-6">
+            {{#if product.thumbnails.[0]}}
+            <div id="productCarousel" class="carousel slide" data-bs-ride="carousel">
+                <div class="carousel-inner">
+                    {{#each product.thumbnails}}
+                    <div class="carousel-item {{#if @first}}active{{/if}}">
+                        <img src="{{this}}" class="d-block w-100" alt="{{../product.title}}">
+                    </div>
+                    {{/each}}
+                </div>
+                {{#if (gt product.thumbnails.length 1)}}
+                <button class="carousel-control-prev" type="button" data-bs-target="#productCarousel" data-bs-slide="prev">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Anterior</span>
+                </button>
+                <button class="carousel-control-next" type="button" data-bs-target="#productCarousel" data-bs-slide="next">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Siguiente</span>
+                </button>
+                {{/if}}
+            </div>
+            {{else}}
+            <div class="bg-light text-center py-5 rounded">Sin imagen</div>
+            {{/if}}
+        </div>
+        <div class="col-md-6">
+            <h1 class="mb-3">{{product.title}}</h1>
+            <p class="fs-3 fw-bold text-primary">${{product.price}}</p>
+            
+            <div class="mb-3">
+                <span class="badge bg-secondary">{{product.category}}</span>
+                {{#if product.available}}
+                <span class="badge bg-success">Disponible</span>
+                {{else}}
+                <span class="badge bg-danger">No disponible</span>
+                {{/if}}
+                <span class="badge bg-info">Stock: {{product.stock}}</span>
+            </div>
+            
+            <p class="mb-4">{{product.description}}</p>
+            
+            <div class="mb-3">
+                <div class="input-group mb-3" style="width: 150px;">
+                    <button class="btn btn-outline-secondary" type="button" id="decreaseQuantity">-</button>
+                    <input type="number" id="quantity" class="form-control text-center" value="1" min="1" max="{{product.stock}}">
+                    <button class="btn btn-outline-secondary" type="button" id="increaseQuantity">+</button>
+                </div>
+            </div>
+            
+            <button id="addToCart" class="btn btn-primary btn-lg" {{#unless product.available}}disabled{{/unless}}>
+                Agregar al carrito
+            </button>
+
+            <input type="hidden" id="maxStock" value="{{product.stock}}">
+            <input type="hidden" id="productId" value="{{product._id}}">
+        </div>
+    </div>
+
+    <div class="row mt-5">
+        <div class="col-12">
+            <h3>Especificaciones</h3>
+            <hr>
+            <table class="table">
+                <tbody>
+                    <tr>
+                        <th>Código</th>
+                        <td>{{product.code}}</td>
+                    </tr>
+                    <tr>
+                        <th>Categoría</th>
+                        <td>{{product.category}}</td>
+                    </tr>
+                    <tr>
+                        <th>Stock</th>
+                        <td>{{product.stock}} unidades</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+

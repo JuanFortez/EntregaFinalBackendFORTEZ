@@ -1,0 +1,74 @@
+/* Estilo general */
+body {
+    font-family: 'Arial', sans-serif;
+    line-height: 1.6;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f4;
+    color: #333;
+  }
+  
+  /* Contenedor principal */
+  .container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+    background: white;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+  }
+  
+  /* Header */
+  .header {
+    background-color: #0077cc;
+    color: white;
+    padding: 20px;
+    text-align: center;
+    border-radius: 8px 8px 0 0;
+  }
+  
+  .header h1 {
+    margin: 0;
+    font-size: 2em;
+  }
+  
+  /* Contenido principal */
+  .main-content {
+    padding: 20px;
+  }
+  
+  /* Secciones */
+  .features, .contact {
+    margin-bottom: 20px;
+  }
+  
+  .features h2, .contact h2 {
+    color: #0077cc;
+    font-size: 1.8em;
+    margin-bottom: 10px;
+  }
+  
+  /* Lista de características */
+  .features ul {
+    list-style-type: none;
+    padding: 0;
+  }
+  
+  .features li {
+    background: #0077cc;
+    color: white;
+    margin-bottom: 10px;
+    padding: 10px;
+    border-radius: 4px;
+  }
+  
+  /* Enlace de contacto */
+  .contact a {
+    color: #0077cc;
+    text-decoration: none;
+    font-weight: bold;
+  }
+  
+  .contact a:hover {
+    text-decoration: underline;
+  }

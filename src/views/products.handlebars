@@ -1,0 +1,135 @@
+<div class="container my-5">
+    <h1 class="mb-4">Productos</h1>
+    
+    <div class="row mb-4">
+        <div class="col-md-6">
+            <form action="/products" method="GET" class="d-flex">
+                <input type="text" name="query" value="{{query}}" class="form-control me-2" placeholder="Buscar productos...">
+                <button type="submit" class="btn btn-primary">Buscar</button>
+            </form>
+        </div>
+        <div class="col-md-6 text-end">
+            <div class="btn-group">
+                <a href="/products?{{#if query}}query={{query}}&{{/if}}sort=asc" class="btn btn-outline-secondary {{#if sortAsc}}active{{/if}}">
+                    Precio: Menor a Mayor
+                </a>
+                <a href="/products?{{#if query}}query={{query}}&{{/if}}sort=desc" class="btn btn-outline-secondary {{#if sortDesc}}active{{/if}}">
+                    Precio: Mayor a Menor
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        {{#each products}}
+        <div class="col-md-4 mb-4">
+            <div class="card h-100">
+                {{#if this.thumbnails.[0]}}
+                <img src="{{this.thumbnails.[0]}}" class="card-img-top" alt="{{this.title}}">
+                {{else}}
+                <div class="card-img-top bg-light text-center py-5">Sin imagen</div>
+                {{/if}}
+                <div class="card-body">
+                    <h5 class="card-title">{{this.title}}</h5>
+                    <p class="card-text text-truncate">{{this.description}}</p>
+                    <p class="card-text"><strong>${{this.price}}</strong></p>
+                    <div class="d-flex justify-content-between">
+                        <a href="/products/{{this._id}}" class="btn btn-info">Ver detalles</a>
+                        <button class="btn btn-primary add-to-cart" data-product-id="{{this._id}}">Agregar al carrito</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {{/each}}
+    </div>
+
+    {{#if totalPages}}
+    <nav aria-label="Page navigation" class="mt-4">
+        <ul class="pagination justify-content-center">
+            {{#if hasPrevPage}}
+            <li class="page-item">
+                <a class="page-link" href="{{prevLink}}" aria-label="Previous">
+                    <span aria-hidden="true">&laquo;</span>
+                </a>
+            </li>
+            {{else}}
+            <li class="page-item disabled">
+                <span class="page-link">&laquo;</span>
+            </li>
+            {{/if}}
+
+            {{#each totalPagesArray}}
+            <li class="page-item {{#if (eq this ../page)}}active{{/if}}">
+                <a class="page-link" href="/products?page={{this}}{{#if ../query}}&query={{../query}}{{/if}}{{#if ../sort}}&sort={{../sort}}{{/if}}">{{this}}</a>
+            </li>
+            {{/each}}
+
+            {{#if hasNextPage}}
+            <li class="page-item">
+                <a class="page-link" href="{{nextLink}}" aria-label="Next">
+                    <span aria-hidden="true">&raquo;</span>
+                </a>
+            </li>
+            {{else}}
+            <li class="page-item disabled">
+                <span class="page-link">&raquo;</span>
+            </li>
+            {{/if}}
+        </ul>
+    </nav>
+    {{/if}}
+</div>
+
+{{!-- <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Obtener el ID del carrito (puedes guardarlo en localStorage o pedirlo de la sesión)
+        const cartId = localStorage.getItem('cartId');
+        
+        // Si no hay un carrito, crear uno
+        if (!cartId) {
+            fetch('/api/carts', { 
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.status === 'success') {
+                    localStorage.setItem('cartId', data.payload._id);
+                }
+            })
+            .catch(error => console.error('Error:', error));
+        }
+        
+        // Agregar evento para los botones de "Agregar al carrito"
+        const addToCartButtons = document.querySelectorAll('.add-to-cart');
+        addToCartButtons.forEach(button => {
+            button.addEventListener('click', function() {
+                const productId = this.dataset.productId;
+                const currentCartId = localStorage.getItem('cartId');
+                
+                if (currentCartId) {
+                    fetch(`/api/carts/${currentCartId}/products/${productId}`, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({ quantity: 1 })
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.status === 'success') {
+                            alert('Producto agregado al carrito');
+                        } else {
+                            alert('Error al agregar el producto');
+                        }
+                    })
+                    .catch(error => console.error('Error:', error));
+                } else {
+                    alert('Error: No se pudo encontrar un carrito');
+                }
+            });
+        });
+    });
+</script> --}}
